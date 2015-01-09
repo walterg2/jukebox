@@ -1,7 +1,6 @@
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
-namespace app.Areas.HelpPage.ModelDescriptions
+namespace Jukebox.Areas.HelpPage.ModelDescriptions
 {
     public class ParameterDescription
     {

@@ -2,9 +2,9 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Net.Http.Headers;
 using System.Web.Http.Description;
-using app.Areas.HelpPage.ModelDescriptions;
+using Jukebox.Areas.HelpPage.ModelDescriptions;
 
-namespace app.Areas.HelpPage.Models
+namespace Jukebox.Areas.HelpPage.Models
 {
     /// <summary>
     /// The model that represents an API displayed on the help page.

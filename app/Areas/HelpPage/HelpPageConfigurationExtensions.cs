@@ -11,10 +11,11 @@ using System.Net.Http.Headers;
 using System.Web.Http;
 using System.Web.Http.Controllers;
 using System.Web.Http.Description;
-using app.Areas.HelpPage.ModelDescriptions;
-using app.Areas.HelpPage.Models;
+using Jukebox.Areas.HelpPage.ModelDescriptions;
+using Jukebox.Areas.HelpPage.Models;
+using Jukebox.Areas.HelpPage.SampleGeneration;
 
-namespace app.Areas.HelpPage
+namespace Jukebox.Areas.HelpPage
 {
     public static class HelpPageConfigurationExtensions
     {

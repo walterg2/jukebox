@@ -1,6 +1,6 @@
 using System;
 
-namespace app.Areas.HelpPage.ModelDescriptions
+namespace Jukebox.Areas.HelpPage.ModelDescriptions
 {
     /// <summary>
     /// Describes a type model.

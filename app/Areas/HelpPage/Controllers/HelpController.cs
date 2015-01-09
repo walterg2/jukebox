@@ -1,10 +1,10 @@
 using System;
 using System.Web.Http;
 using System.Web.Mvc;
-using app.Areas.HelpPage.ModelDescriptions;
-using app.Areas.HelpPage.Models;
+using Jukebox.Areas.HelpPage.ModelDescriptions;
+using Jukebox.Areas.HelpPage.Models;
 
-namespace app.Areas.HelpPage.Controllers
+namespace Jukebox.Areas.HelpPage.Controllers
 {
     /// <summary>
     /// The controller that will handle requests for the help page.

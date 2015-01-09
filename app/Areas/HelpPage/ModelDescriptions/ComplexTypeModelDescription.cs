@@ -1,6 +1,6 @@
 using System.Collections.ObjectModel;
 
-namespace app.Areas.HelpPage.ModelDescriptions
+namespace Jukebox.Areas.HelpPage.ModelDescriptions
 {
     public class ComplexTypeModelDescription : ModelDescription
     {

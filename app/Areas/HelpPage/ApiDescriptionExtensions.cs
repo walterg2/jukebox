@@ -3,7 +3,7 @@ using System.Text;
 using System.Web;
 using System.Web.Http.Description;
 
-namespace app.Areas.HelpPage
+namespace Jukebox.Areas.HelpPage
 {
     public static class ApiDescriptionExtensions
     {

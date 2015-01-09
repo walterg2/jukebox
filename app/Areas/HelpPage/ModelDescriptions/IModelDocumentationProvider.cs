@@ -1,7 +1,7 @@
 using System;
 using System.Reflection;
 
-namespace app.Areas.HelpPage.ModelDescriptions
+namespace Jukebox.Areas.HelpPage.ModelDescriptions
 {
     public interface IModelDocumentationProvider
     {

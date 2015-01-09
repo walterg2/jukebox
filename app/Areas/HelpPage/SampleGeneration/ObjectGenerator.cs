@@ -6,7 +6,7 @@ using System.Globalization;
 using System.Linq;
 using System.Reflection;
 
-namespace app.Areas.HelpPage
+namespace Jukebox.Areas.HelpPage.SampleGeneration
 {
     /// <summary>
     /// This class will create an object of a given type and populate it with sample data.
