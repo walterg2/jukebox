@@ -1,6 +1,7 @@
 ﻿using Hangfire;
 using Hangfire.SqlServer;
 using Jukebox;
+using Jukebox.Jobs;
 using Microsoft.Owin;
 using Owin;
 
@@ -17,6 +18,8 @@ namespace Jukebox
                 config.UseSqlServerStorage(@"Server=.\SQLExpress;Database=JukeboxJobs;User Id=sa; Password=northwoods;");
                 config.UseServer();
             });
+
+            RecurringJob.AddOrUpdate<ScanMusic>(x => x.ScanFolder(@"C:\cdmp3"), Cron.Minutely);
         }
     }
 }

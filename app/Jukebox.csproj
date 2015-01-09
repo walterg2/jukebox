@@ -222,7 +222,12 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\lib\Jukebox.Jobs\Jukebox.Jobs.csproj">
+      <Project>{BA1C3DFD-A024-4446-A285-0FB84B4FCBD3}</Project>
+      <Name>Jukebox.Jobs</Name>
+    </ProjectReference>
+  </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
