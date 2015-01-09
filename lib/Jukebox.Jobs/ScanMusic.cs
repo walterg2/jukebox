@@ -1,9 +1,5 @@
-﻿using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
-using System.IO.IsolatedStorage;
-using System.Linq;
-using ID3TagLibrary;
 using Jukebox.Data;
 using Jukebox.Data.Models;
 using Jukebox.Jobs.Extensions;
@@ -25,55 +21,22 @@ namespace Jukebox.Jobs
         {
             using (var session = _sessionFactory.OpenSession())
             {
-                Directory.EnumerateFiles(folderPath, "*.mp3", SearchOption.AllDirectories).ForEach(Add);
+                Directory.EnumerateFiles(folderPath, "*.mp3", SearchOption.AllDirectories).ForEach(x => Add(x, session));
 
                 _artists.ForEach(session.Store);
                 session.SaveChanges();
             }
         }
 
-        private void Add(string filePath)
+        private void Add(string filePath, Session session)
         {
             var info = TrackInformation.For(filePath);
 
             _artists.AddOrUpdate(new Artist(info.Artist))
                 .Albums.AddOrUpdate(new Album(info.Album))
                 .Tracks.AddOrUpdate(new Track(info.Title));
-        }
-    }
 
-    public class TrackInformation
-    {
-        private readonly MP3File _id3;
-
-        private TrackInformation(string filePath)
-        {
-            _id3 = new MP3File(filePath);
-        }
-
-        public static TrackInformation For(string filePath)
-        {
-            return new TrackInformation(filePath);
-        }
-
-        public string Artist { get { return _id3.Artist; } }
-        public string Album { get { return _id3.Album; } }
-        public string Year { get { return _id3.Year; } }
-        public string Title { get { return _id3.Title; } }
-    }
-
-    static class EnumerableExtensions
-    {
-        public static T AddOrUpdate<T>(this IList<T> list, T item) where T : class
-        {
-            var found = list.FirstOrDefault(x => x.Equals(item));
-            return found ?? Add(list, item);
-        }
-
-        private static T Add<T>(ICollection<T> collection, T item)
-        {
-            collection.Add(item);
-            return item;
+            session.AddAttachment(info.Path, info.FileName, File.OpenRead(filePath));
         }
     }
 }

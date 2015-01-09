@@ -20,7 +20,6 @@ namespace Jukebox
                 config.UseAutofacActivator(IoC.Autofac.Configuration);
             });
 
-            //RecurringJob.AddOrUpdate<ScanMusic>(x => x.ScanFolder(@"C:\cdmp3"), "5 * * * *");
             BackgroundJob.Enqueue<ScanMusic>(x => x.PerformInitialScan(@"C:\cdmp3"));
         }
     }

@@ -1,7 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.IO;
 using Raven.Client;
 using Raven.Client.FileSystem;
 using Raven.Client.Linq;
+using Raven.Json.Linq;
 
 namespace Jukebox.Data
 {
@@ -12,6 +15,7 @@ namespace Jukebox.Data
         void SaveChanges();
         void Delete(object model);
         IRavenQueryable<TModel> Query<TModel>();
+        string AddAttachment(string id, string filename, Stream attachment, params KeyValuePair<string, object>[] metadata);
     }
 
     class RavenSession : Session
@@ -53,6 +57,23 @@ namespace Jukebox.Data
         public IRavenQueryable<TModel> Query<TModel>()
         {
             return _session.Query<TModel>();
+        }
+
+        public string AddAttachment(string id, string filename, Stream attachment, params KeyValuePair<string, object>[] metadata)
+        {
+            using (var fileSession = _fileStore.OpenAsyncSession())
+            {
+                var ravenMetadata = new RavenJObject();
+                foreach (var x in metadata)
+                {
+                    ravenMetadata.Add(x.Key, RavenJToken.FromObject(x.Value));
+                }
+
+                var path = string.Format("{0}/{1}", id, filename);
+                fileSession.RegisterUpload(path, attachment, ravenMetadata);
+                fileSession.SaveChangesAsync().Wait();
+                return path;
+            }
         }
     }
 }
