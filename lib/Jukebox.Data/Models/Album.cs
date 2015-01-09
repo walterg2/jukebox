@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.Linq;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Jukebox.Data.Models
 {
@@ -10,18 +10,22 @@ namespace Jukebox.Data.Models
             Tracks = new List<Track>();
         }
 
+        public Album(string title) : this()
+        {
+            Title = title;
+        }
+
         public string Title { get; set; }
         public List<Track> Tracks { get; protected set; }
 
-        public Track TrackFor(string title)
+        public override bool Equals(object o)
         {
-            return Tracks.FirstOrDefault(x => x.Name == title) ?? AddTrack(title);
+            return this.CeremoniallyEquals(o, theirs => 0 == string.Compare(Title, theirs.Title, StringComparison.CurrentCultureIgnoreCase));
         }
 
-        private Track AddTrack(string title)
+        public override int GetHashCode()
         {
-            Tracks.Add(new Track { Name = title });
-            return Tracks.Last();
+            return this.CombinedHashCodes(Title.ToLower());
         }
     }
 }

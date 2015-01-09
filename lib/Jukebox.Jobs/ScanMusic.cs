@@ -1,7 +1,11 @@
-﻿using System.IO;
+﻿using System.Collections.Concurrent;
+using System.Collections.Generic;
+using System.IO;
+using System.IO.IsolatedStorage;
+using System.Linq;
 using ID3TagLibrary;
 using Jukebox.Data;
-using Jukebox.Data.Repositories;
+using Jukebox.Data.Models;
 using Jukebox.Jobs.Extensions;
 
 namespace Jukebox.Jobs
@@ -9,29 +13,32 @@ namespace Jukebox.Jobs
     public class ScanMusic
     {
         private readonly SessionFactory _sessionFactory;
-        private readonly ArtistRepository _artistRepository;
+        private readonly List<Artist> _artists;
 
-        public ScanMusic(SessionFactory sessionFactory, ArtistRepository artistRepository)
+        public ScanMusic(SessionFactory sessionFactory)
         {
             _sessionFactory = sessionFactory;
-            _artistRepository = artistRepository;
+            _artists = new List<Artist>();
         }
 
-        public void ScanFolder(string folderPath)
-        {
-            Directory.EnumerateFiles(folderPath, "*.mp3", SearchOption.AllDirectories).ForEach(AddOrIgnore);
-        }
-
-        private void AddOrIgnore(string filePath)
+        public void PerformInitialScan(string folderPath)
         {
             using (var session = _sessionFactory.OpenSession())
             {
-                var info = TrackInformation.For(filePath);
-                var artist = _artistRepository.FindByName(info.Artist) ?? _artistRepository.Add(info.Artist);
-                var album = artist.AlbumFor(info.Album);
-                album.TrackFor(info.Title);
+                Directory.EnumerateFiles(folderPath, "*.mp3", SearchOption.AllDirectories).ForEach(Add);
+
+                _artists.ForEach(session.Store);
                 session.SaveChanges();
             }
+        }
+
+        private void Add(string filePath)
+        {
+            var info = TrackInformation.For(filePath);
+
+            _artists.AddOrUpdate(new Artist(info.Artist))
+                .Albums.AddOrUpdate(new Album(info.Album))
+                .Tracks.AddOrUpdate(new Track(info.Title));
         }
     }
 
@@ -53,5 +60,20 @@ namespace Jukebox.Jobs
         public string Album { get { return _id3.Album; } }
         public string Year { get { return _id3.Year; } }
         public string Title { get { return _id3.Title; } }
+    }
+
+    static class EnumerableExtensions
+    {
+        public static T AddOrUpdate<T>(this IList<T> list, T item) where T : class
+        {
+            var found = list.FirstOrDefault(x => x.Equals(item));
+            return found ?? Add(list, item);
+        }
+
+        private static T Add<T>(ICollection<T> collection, T item)
+        {
+            collection.Add(item);
+            return item;
+        }
     }
 }

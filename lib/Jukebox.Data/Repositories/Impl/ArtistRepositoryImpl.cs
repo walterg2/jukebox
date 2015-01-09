@@ -18,11 +18,6 @@ namespace Jukebox.Data.Repositories.Impl
                 .FirstOrDefault(x => x.Name == artistName);
         }
 
-        public Artist Add(string artist)
-        {
-            return Session.Create(new Artist { Name = artist });
-        }
-
         private Session Session
         {
             get { return _context.CurrentSession; }

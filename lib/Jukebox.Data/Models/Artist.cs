@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Jukebox.Data.Models
@@ -8,6 +9,11 @@ namespace Jukebox.Data.Models
         public Artist()
         {
             Albums = new List<Album>();
+        }
+
+        public Artist(string name) : this()
+        {
+            Name = name;
         }
 
         public string Id { get; protected set; }
@@ -23,6 +29,16 @@ namespace Jukebox.Data.Models
         {
             Albums.Add(new Album { Title = name });
             return Albums.Last();
+        }
+
+        public override bool Equals(object o)
+        {
+            return this.CeremoniallyEquals(o, theirs => 0 == string.Compare(Name, theirs.Name, StringComparison.CurrentCultureIgnoreCase));
+        }
+
+        public override int GetHashCode()
+        {
+            return this.CombinedHashCodes(Name.ToLower());
         }
     }
 }

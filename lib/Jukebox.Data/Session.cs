@@ -7,7 +7,7 @@ namespace Jukebox.Data
 {
     public interface Session : IDisposable
     {
-        TModel Create<TModel>(TModel model);
+        void Store<TModel>(TModel model);
         TModel Find<TModel>(string id);
         void SaveChanges();
         void Delete(object model);
@@ -30,11 +30,9 @@ namespace Jukebox.Data
             using (_session) { }
         }
 
-        public TModel Create<TModel>(TModel model)
+        public void Store<TModel>(TModel model)
         {
             _session.Store(model);
-            SaveChanges();
-            return model;
         }
 
         public TModel Find<TModel>(string id)
