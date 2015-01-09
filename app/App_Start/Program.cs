@@ -17,6 +17,7 @@ namespace Jukebox
             {
                 config.UseSqlServerStorage(@"Server=.\SQLExpress;Database=JukeboxJobs;User Id=sa; Password=northwoods;");
                 config.UseServer();
+                config.UseAutofacActivator(IoC.Autofac.Configuration);
             });
 
             RecurringJob.AddOrUpdate<ScanMusic>(x => x.ScanFolder(@"C:\cdmp3"), Cron.Minutely);
