@@ -4,21 +4,32 @@ namespace Jukebox.Data.Models
 {
     public class Track
     {
-        public Track(string name)
+        public Track(string artist, string album, string year, string title)
         {
-            Name = name;
+            Artist = artist;
+            Album = album;
+            Year = YearFrom(year);
+            Title = title;
         }
 
-        public string Name { get; set; }
+        public string Id { get; protected set; }
+        public string Artist { get; set; }
+        public string Album { get; set; }
+        public int Year { get; set; }
+        public string Title { get; set; }
 
-        public override bool Equals(object o)
+
+        private static int YearFrom(string year)
         {
-            return this.CeremoniallyEquals(o, theirs => 0 == string.Compare(Name, theirs.Name, StringComparison.CurrentCultureIgnoreCase));
+            try
+            {
+                return (int) Convert.ChangeType(year, typeof(int));
+            }
+            catch (FormatException)
+            {
+                return 0;
+            }
         }
 
-        public override int GetHashCode()
-        {
-            return this.CombinedHashCodes(Name.ToLower());
-        }
     }
 }
