@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using Hangfire;
 using Jukebox.Data;
 using Jukebox.Data.Models;
 using Jukebox.Jobs.Extensions;
 
 namespace Jukebox.Jobs
 {
-    public class ScanMusic
+    public class MusicScanner
     {
         private readonly SessionFactory _sessionFactory;
 
-        public ScanMusic(SessionFactory sessionFactory)
+        public MusicScanner(SessionFactory sessionFactory)
         {
             _sessionFactory = sessionFactory;
         }
@@ -23,13 +24,22 @@ namespace Jukebox.Jobs
                 {
                     var track = TrackFrom(x);
                     session.Store(track);
-                    using (var stream = File.OpenRead(x))
-                    {
-                        session.AddAttachment(track.Id, track.Title + ".mp3", stream);
-                    }
+
+                    BackgroundJob.Enqueue(() => Upload(track.Id, track.Title, x));
                 });
 
                 session.SaveChanges();
+            }
+        }
+
+        public void Upload(string track, string title, string path)
+        {
+            using (var session = _sessionFactory.OpenSession())
+            {
+                using (var stream = File.OpenRead(path))
+                {
+                    session.AddAttachment(track, title + Path.GetExtension(path), stream);
+                }
             }
         }
 
