@@ -7,6 +7,7 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.28/angular.min.js"></script>
+    <link href='http://fonts.googleapis.com/css?family=Roboto' rel='stylesheet' type='text/css'>
 </head>
 <body>
     <div class="navbar navbar-inverse navbar-fixed-top">
@@ -27,11 +28,10 @@
             </div>
         </div>
     </div>
-    <div class="container body-content" data-ng-app="jukebox">
+    <div class="container body-content col-md-9 col-md-offset-3" data-ng-app="jukebox">
         @RenderBody()
         <hr />
         <footer>
-            <p>&copy; @DateTime.Now.Year - My ASP.NET Application</p>
         </footer>
     </div>
 

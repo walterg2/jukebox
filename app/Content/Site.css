@@ -5,6 +5,7 @@
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
+    margin-top: 10px;
     padding-left: 15px;
     padding-right: 15px;
 }
@@ -17,8 +18,10 @@ textarea {
 }
 
 .album {
-    border-radius: 2px 2px 0 0;
-    min-height: 175px;
+    box-shadow: 1px 2px 3px rgba(0, 0, 0, .2);
+    border-radius: 7px;
+    min-height: 200px;
+    margin-bottom: 5px;
 }
 
 .album img {
@@ -28,9 +31,11 @@ textarea {
 .album p {
     overflow: hidden;
     white-space: nowrap;
+    font-family: 'Roboto',arial,sans-serif;
 }
 
-.col:not(:first-child),.col:not(:last-child) {
-  padding-right:5px;
-  padding-left:5px;
+.col:not(:first-child), .col:not(:last-child) {
+    padding-top: 5px;
+    padding-right: 7px;
+    padding-left: 7px;
 }
