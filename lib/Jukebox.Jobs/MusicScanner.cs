@@ -1,5 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
+using System.Linq;
 using Hangfire;
 using Jukebox.Data;
 using Jukebox.Data.Models;
@@ -20,9 +20,14 @@ namespace Jukebox.Jobs
         {
             using (var session = _sessionFactory.OpenSession())
             {
+                if (0 != session.Query<Track>().Count())
+                {
+                    return;
+                }
+
                 Directory.EnumerateFiles(folderPath, "*.mp3", SearchOption.AllDirectories).ForEach(x =>
                 {
-                    var track = TrackFrom(x);
+                    var track = TrackFromFile(x);
                     session.Store(track);
 
                     BackgroundJob.Enqueue(() => Upload(track.Id, track.Title, x));
@@ -38,15 +43,27 @@ namespace Jukebox.Jobs
             {
                 using (var stream = File.OpenRead(path))
                 {
-                    session.AddAttachment(track, title + Path.GetExtension(path), stream);
+                    var fileName = string.IsNullOrEmpty(title) ? Path.GetFileName(path) : title + Path.GetExtension(path);
+                    session.AddAttachment(track, fileName, stream);
                 }
             }
         }
 
-        private static Track TrackFrom(string x)
+        private static Track TrackFromFile(string path)
         {
-            var info = TrackInformation.For(x);
-            return new Track(info.Artist, info.Album, info.Year, info.Title);
+            using (var file = TagLib.File.Create(path))
+            {
+                return new Track
+                {
+                    Artist = file.Tag.FirstAlbumArtist,
+                    Artists = file.Tag.AlbumArtists,
+                    Album = file.Tag.Album,
+                    TrackNumber = file.Tag.Track,
+                    Title = file.Tag.Title,
+                    Genres = file.Tag.Genres,
+                    Year = file.Tag.Year,
+                };
+            }
         }
     }
 }

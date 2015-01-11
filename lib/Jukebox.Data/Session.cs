@@ -71,7 +71,12 @@ namespace Jukebox.Data
 
                 var path = string.Format("{0}/{1}", id, filename);
                 fileSession.RegisterUpload(path, attachment, ravenMetadata);
-                fileSession.SaveChangesAsync().Wait();
+                var task = fileSession.SaveChangesAsync();
+                task.Wait();
+
+                if (task.IsFaulted)
+                    throw task.Exception;
+
                 return path;
             }
         }
