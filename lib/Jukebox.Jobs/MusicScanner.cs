@@ -1,5 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
+using System.Reflection;
 using Hangfire;
 using Jukebox.Data;
 using Jukebox.Data.Models;
@@ -30,20 +31,19 @@ namespace Jukebox.Jobs
                     var track = TrackFromFile(x);
                     session.Store(track);
 
-                    BackgroundJob.Enqueue(() => Upload(track.Id, track.Title, x));
+                    BackgroundJob.Enqueue(() => Upload(track.Id, track.Title, track.FileName, x));
                 });
 
                 session.SaveChanges();
             }
         }
 
-        public void Upload(string track, string title, string path)
+        public void Upload(string track, string title, string fileName,  string path)
         {
             using (var session = _sessionFactory.OpenSession())
             {
                 using (var stream = File.OpenRead(path))
                 {
-                    var fileName = string.IsNullOrEmpty(title) ? Path.GetFileName(path) : title + Path.GetExtension(path);
                     session.AddAttachment(track, fileName, stream);
                 }
             }
@@ -53,15 +53,19 @@ namespace Jukebox.Jobs
         {
             using (var file = TagLib.File.Create(path))
             {
+                var tag = file.Tag;
                 return new Track
                 {
-                    Artist = file.Tag.FirstAlbumArtist,
-                    Artists = file.Tag.AlbumArtists,
-                    Album = file.Tag.Album,
-                    TrackNumber = file.Tag.Track,
-                    Title = file.Tag.Title,
-                    Genres = file.Tag.Genres,
-                    Year = file.Tag.Year,
+                    Artist = tag.FirstAlbumArtist,
+                    Artists = tag.AlbumArtists,
+                    Album = tag.Album,
+                    TrackNumber = tag.Track,
+                    Title = tag.Title,
+                    Genres = tag.Genres,
+                    Year = tag.Year,
+                    FileName = string.IsNullOrEmpty(tag.Title) 
+                                    ? Path.GetFileName(path) 
+                                    : tag.Title + Path.GetExtension(path)
                 };
             }
         }
