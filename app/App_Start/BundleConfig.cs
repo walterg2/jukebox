@@ -1,4 +1,5 @@
 ﻿using System.Web.Optimization;
+using Raven.Client.Linq;
 
 namespace Jukebox
 {
@@ -18,6 +19,10 @@ namespace Jukebox
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                 "~/js/vendor/bootstrap.js", 
                 "~/js/vendor/respond.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/angular").Include(
+                "~/js/vendor/angular/angular.js",
+                "~/js/vendor/angular/angular-route.js"));
 
             bundles.Add(new ScriptBundle("~/bundles/jukebox").Include(
                 "~/js/jukebox.js",
