@@ -15,6 +15,7 @@ namespace Jukebox.Data
         void SaveChanges();
         void Delete(object model);
         IRavenQueryable<TModel> Query<TModel>();
+        IRavenQueryable<TModel> QueryIndex<TModel>(string indexName);
         string AddAttachment(string id, string filename, Stream attachment, params KeyValuePair<string, object>[] metadata);
     }
 
@@ -57,6 +58,11 @@ namespace Jukebox.Data
         public IRavenQueryable<TModel> Query<TModel>()
         {
             return _session.Query<TModel>();
+        }
+
+        public IRavenQueryable<TModel> QueryIndex<TModel>(string indexName)
+        {
+            return _session.Query<TModel>(indexName);
         }
 
         public string AddAttachment(string id, string filename, Stream attachment, params KeyValuePair<string, object>[] metadata)

@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using System.Security.Cryptography.X509Certificates;
 using System.Web.Http;
+using AutoMapper;
 using Jukebox.Data;
 using Jukebox.Data.Models;
 using Jukebox.Models;
@@ -19,12 +18,13 @@ namespace Jukebox.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Album> All()
+        public IEnumerable<ArtistAlbum> All()
         {
             using (var session = _sessionFactory.OpenSession())
             {
-                return session.Query<Track>()
-                    .Select(x => new Album { Artist = x.Artist, Title = x.Album })
+                return session.QueryIndex<Track>("Albums")
+                    .Select(Mapper.Map<ArtistAlbum>)
+                    .OrderBy(x => x.Artist).ThenBy(x => x.Album)
                     .ToList();
             }
         }
