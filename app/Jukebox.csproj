@@ -209,8 +209,8 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
-    <Content Include="js\bootstrap.js" />
-    <Content Include="js\bootstrap.min.js" />
+    <Content Include="js\vendor\bootstrap.js" />
+    <Content Include="js\vendor\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
     <Content Include="Areas\HelpPage\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\ResourceModel.cshtml" />
@@ -230,12 +230,12 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
-    <None Include="js\jquery-1.10.2.intellisense.js" />
-    <Content Include="js\jquery-1.10.2.js" />
-    <Content Include="js\jquery-1.10.2.min.js" />
-    <Content Include="js\modernizr-2.6.2.js" />
-    <Content Include="js\respond.js" />
-    <Content Include="js\respond.min.js" />
+    <None Include="js\vendor\jquery-1.10.2.intellisense.js" />
+    <Content Include="js\vendor\jquery-1.10.2.js" />
+    <Content Include="js\vendor\jquery-1.10.2.min.js" />
+    <Content Include="js\vendor\modernizr-2.6.2.js" />
+    <Content Include="js\vendor\respond.js" />
+    <Content Include="js\vendor\respond.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -245,13 +245,13 @@
     </Content>
     <Content Include="Areas\HelpPage\Views\_ViewStart.cshtml" />
     <Content Include="Content\Site.css" />
-    <Content Include="js\_references.js" />
+    <Content Include="js\vendor\_references.js" />
     <Content Include="Views\Web.config" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="js\jquery-1.10.2.min.map" />
+    <Content Include="js\vendor\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\lib\Jukebox.Data\Jukebox.Data.csproj">
