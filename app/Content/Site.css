@@ -15,3 +15,22 @@ select,
 textarea {
     max-width: 280px;
 }
+
+.album {
+    border-radius: 2px 2px 0 0;
+    min-height: 175px;
+}
+
+.album img {
+    width: 100%;
+}
+
+.album p {
+    overflow: hidden;
+    white-space: nowrap;
+}
+
+.col:not(:first-child),.col:not(:last-child) {
+  padding-right:5px;
+  padding-left:5px;
+}
