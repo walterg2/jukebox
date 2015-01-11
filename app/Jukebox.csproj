@@ -156,6 +156,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="js\vendor\angular\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
@@ -193,12 +194,14 @@
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Config\MappingConfig.cs" />
     <Compile Include="Controllers\AlbumsController.cs" />
+    <Compile Include="Controllers\ArtistsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ValuesController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="IoC\Autofac.cs" />
+    <Compile Include="Models\Artist.cs" />
     <Compile Include="Models\ArtistAlbum.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -209,6 +212,7 @@
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
+    <Content Include="js\jukebox.js" />
     <Content Include="js\vendor\bootstrap.js" />
     <Content Include="js\vendor\bootstrap.min.js" />
     <Content Include="Areas\HelpPage\Views\Web.config" />
