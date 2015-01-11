@@ -6,7 +6,7 @@ namespace Jukebox.Controllers
     {
         public ActionResult Index()
         {
-            ViewBag.Title = "Home Page";
+            ViewBag.Title = "Jukebox";
 
             return View();
         }

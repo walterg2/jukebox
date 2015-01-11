@@ -11,14 +11,18 @@ namespace Jukebox.IoC
             builder.RegisterType<RavenSessionFactory>().As<SessionFactory>().SingleInstance();
         }
 
+        private static IContainer _configuration;
         public static IContainer Configuration
         {
             get
             {
+                if (null != _configuration)
+                    return _configuration;
+
                 var builder = new ContainerBuilder();
                 builder.RegisterSource(new AnyConcreteTypeNotAlreadyRegisteredSource());
                 builder.RegisterModule(new Autofac());
-                return builder.Build();
+                return _configuration = builder.Build();
             }
         }
     }

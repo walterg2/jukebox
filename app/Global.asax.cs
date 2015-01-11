@@ -2,6 +2,8 @@
 using System.Web.Mvc;
 using System.Web.Optimization;
 using System.Web.Routing;
+using Autofac.Integration.Mvc;
+using Autofac.Integration.WebApi;
 
 namespace Jukebox
 {
@@ -14,6 +16,9 @@ namespace Jukebox
             FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+            DependencyResolver.SetResolver(new AutofacDependencyResolver(IoC.Autofac.Configuration));
+            GlobalConfiguration.Configuration.DependencyResolver = new AutofacWebApiDependencyResolver(IoC.Autofac.Configuration);
         }
     }
 }
