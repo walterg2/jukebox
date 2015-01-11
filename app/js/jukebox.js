@@ -9,6 +9,9 @@ Jukebox.app = angular.module('jukebox', ['ngRoute'])
                 templateUrl: 'partials/artists.html',
                 controller: 'ArtistController'
             })
+            .when('/artist/:id/albums', {
+                templateUrl: 'partials/albums.html',
+                controller: 'AlbumController'
+            })
             .otherwise({redirectTo: '/artists'});
-
     }]);

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Web.Http;
 using AutoMapper;
 using Jukebox.Data;
@@ -18,13 +20,16 @@ namespace Jukebox.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<ArtistAlbum> All()
+        public IEnumerable<ArtistAlbum> Get(string id)
         {
+            var artist = Encoding.UTF8.GetString(Convert.FromBase64String(id));
+
             using (var session = _sessionFactory.OpenSession())
             {
                 return session.QueryIndex<Track>("Albums")
+                    .Where(x => x.Artist == artist)
                     .Select(Mapper.Map<ArtistAlbum>)
-                    .OrderBy(x => x.Artist).ThenBy(x => x.Album)
+                    .OrderBy(x => x.Album)
                     .ToList();
             }
         }

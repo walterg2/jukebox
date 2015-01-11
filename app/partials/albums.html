@@ -1,0 +1,7 @@
+﻿<div class="row" data-ng-controller="AlbumController">
+    <h1>{{artist}}</h1>
+    <div class="col-md-3 col album" data-ng-repeat="album in albums">
+        <a href='#/artist/{{artist.Id}}/albums'><img src="http://placehold.it/250x150" /></a>
+        <p>{{album.Album}}</p>
+    </div>
+</div>
